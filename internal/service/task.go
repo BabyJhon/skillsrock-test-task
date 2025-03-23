@@ -24,7 +24,7 @@ func (s *taskService) CreateTask(ctx context.Context, task entity.Task) (int, er
 	return s.repo.CreateTask(ctx, task)
 }
 
-func (s *taskService) DeleteTask(ctx context.Context, id int) error {
+func (s *taskService) DeleteTask(ctx context.Context, id int) (int, error) {
 	return s.repo.DeleteTask(ctx, id)
 }
 

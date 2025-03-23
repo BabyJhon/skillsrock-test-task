@@ -31,19 +31,19 @@ func (t *taskRepo) CreateTask(ctx context.Context, task entity.Task) (int, error
 	return id, nil
 }
 
-func (t *taskRepo) DeleteTask(ctx context.Context, id int) error {
+func (t *taskRepo) DeleteTask(ctx context.Context, id int) (int, error) {
 	query := fmt.Sprintf("DELETE FROM %s WHERE id = $1", postgres.TasksTable)
 	row, err := t.db.Exec(ctx, query, id)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
 	rowsAffected := row.RowsAffected()
 	if rowsAffected == 0 {
-		return ErrTaskNotFound
+		return 0, ErrTaskNotFound
 	}
 
-	return nil
+	return id, err
 }
 
 func (t *taskRepo) UpdateTask(ctx context.Context, task entity.Task) (entity.Task, error) {

@@ -45,12 +45,15 @@ func (h *Handler) DeleteTask(c *fiber.Ctx) error {
 		return errors.New("invalid path value")
 	}
 
-	if err := h.services.DeleteTask(context.Background(), intId); err != nil {
+	id, err := h.services.DeleteTask(context.Background(), intId)
+	if err != nil {
 		c.Status(fiber.StatusInternalServerError)
 		return err
 	}
 
-	return c.Status(fiber.StatusOK).SendString("Task successfully delete")
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"id": id,
+	})
 }
 
 func (h *Handler) UpdateTask(c *fiber.Ctx) error {
